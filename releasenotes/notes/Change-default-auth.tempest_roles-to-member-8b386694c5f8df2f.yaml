@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    The following option has changed its default value from
+
+    * ``CONF.auth.tempest_roles _member_``
+
+    to
+
+    * ``CONF.auth.tempest_roles member``
