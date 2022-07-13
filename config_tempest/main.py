@@ -102,8 +102,6 @@ def load_basic_defaults(conf):
             ("lock_path", "/tmp")
         ],
         "compute-feature-enabled": [
-            # Default deployment does not use shared storage
-            ("live_migration", "false"),
             ("preserve_ports", "true")
         ],
         "network-feature-enabled": [

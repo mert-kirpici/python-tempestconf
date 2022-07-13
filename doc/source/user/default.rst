@@ -24,10 +24,8 @@ Here is the list of tempest options, which are set by default:
     alt_project_name = alt_demo
 
     [auth]
-    ; if _member_ role is not present in the system, python-tempestconf
-    ; looks for member role and if the member is also not present
-    ; tempest_roles option is not set
-    tempest_roles = _member_
+    ; if member role is not present tempest_roles option is not set
+    tempest_roles = member
     admin_username = admin
     admin_project_name = admin
     admin_domain_name = Default
@@ -40,7 +38,6 @@ Here is the list of tempest options, which are set by default:
 
     [compute-feature-enabled]
     # Default deployment does not use shared storage
-    live_migration = false
     preserve_ports = true
 
     [network-feature-enabled]

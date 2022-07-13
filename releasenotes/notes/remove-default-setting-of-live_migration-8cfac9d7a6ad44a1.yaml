@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The following option is no longer set by default
+
+    * ``CONF.compute-feature-enabled.live_migration false``
+
+    The default value for this option in Tempest is true.
