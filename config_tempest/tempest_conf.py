@@ -23,18 +23,20 @@ import tempest.config
 
 
 class TempestConf(configparser.ConfigParser):
-    # causes the config parser to preserve case of the options
-    optionxform = str
-
-    # set of pairs `(section, key)` which have a higher priority (are
-    # user-defined) and will usually not be overwritten by `set()`
-    priority_sectionkeys = set()
 
     CONF = tempest.config.TempestConfigPrivate(parse_conf=False)
 
     def __init__(self, write_credentials=True, **kwargs):
+        # causes the config parser to preserve case of the options
+        self.optionxform = str
+
+        # set of pairs `(section, key)` which have a higher priority (are
+        # user-defined) and will usually not be overwritten by
+        # `TempestConf.set()`
+        self.priority_sectionkeys = set()
+
         self.write_credentials = write_credentials
-        configparser.ConfigParser.__init__(self, **kwargs)
+        super().__init__(self, **kwargs)
 
     def get_bool_value(self, value):
         """Returns boolean value of the string value given.
