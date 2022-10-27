@@ -177,8 +177,11 @@
       # creator role is required for Barbican tests
       additional_tempestconf_params: "auth.tempest_roles creator image_signature_verification.enforced False"
       test_regex:
+        # TODO(lpiwowar) Uncomment once designate-tempest-plugin works with python-tempestconf. Currently almost
+        #                every test from the plugin fails when the [dns].nameservers value is not set
+        #                (see: https://review.opendev.org/c/openstack/designate-tempest-plugin/+/860116)
+        # - 'designate_tempest_plugin'
         - 'heat_tempest_plugin'
-        - 'designate_tempest_plugin'
         - 'barbican_tempest_plugin'
       exclude_regex:
         # TODO(lpiwowar) Remove once the test is fixed. (Bug: https://bugs.launchpad.net/designate/+bug/1968717)
