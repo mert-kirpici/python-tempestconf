@@ -1,15 +1,17 @@
 - project:
     templates:
       - openstack-cover-jobs
-      - openstack-python3-zed-jobs
+      - openstack-python3-antelope-jobs
       - release-notes-jobs-python3
     check:
       jobs:
+        - openstack-tox-py39
         - python-tempestconf-tempest-devstack-admin
-        - python-tempestconf-tempest-devstack-admin-victoria
-        - python-tempestconf-tempest-devstack-admin-wallaby
-        - python-tempestconf-tempest-devstack-admin-xena
         - python-tempestconf-tempest-devstack-admin-yoga
+        # temporarily marked to n-v, there is a bug
+        # https://storyboard.openstack.org/#!/story/2010573
+        - python-tempestconf-tempest-devstack-admin-zed:
+            voting: false
         - python-tempestconf-tempest-devstack-demo
         - python-tempestconf-tempest-devstack-admin-plugins
         - python-tempestconf-tempest-packstack-admin:
@@ -33,11 +35,16 @@
                 - standalone
             dependencies:
               - tripleo-ci-centos-9-content-provider
-        - tripleo-ci-centos-9-standalone:
-            irrelevant-files: *irrelevant-files
-            vars: *standalone
-            dependencies:
-              - tripleo-ci-centos-9-content-provider
+        # The job has been constantly failing recently, commenting it out
+        # to unblock the CI. Not marking it n-v as the job takes too long
+        # and as we have a backlog of patches and we know that it's gonna
+        # fail, I have rather commented it out.
+        # https://bugs.launchpad.net/tripleo/+bug/2006649
+        #- tripleo-ci-centos-9-standalone:
+        #    irrelevant-files: *irrelevant-files
+        #    vars: *standalone
+        #    dependencies:
+        #      - tripleo-ci-centos-9-content-provider
         - tripleo-ci-centos-9-scenario010-standalone:
             irrelevant-files: *irrelevant-files
             voting: false
@@ -49,14 +56,16 @@
                 - octavia
             dependencies:
               - tripleo-ci-centos-9-content-provider
-        - opendev-tox-docs
+        # temporarily marked to n-v, there is already a fix for this:
+        # https://review.opendev.org/c/openinfra/python-tempestconf/+/870548
+        - opendev-tox-docs:
+            voting: false
     gate:
       jobs:
+        - openstack-tox-py39
         - python-tempestconf-tempest-devstack-admin
-        - python-tempestconf-tempest-devstack-admin-victoria
-        - python-tempestconf-tempest-devstack-admin-wallaby
-        - python-tempestconf-tempest-devstack-admin-xena
         - python-tempestconf-tempest-devstack-admin-yoga
+        # - python-tempestconf-tempest-devstack-admin-zed
         - python-tempestconf-tempest-devstack-demo
         - python-tempestconf-tempest-devstack-admin-plugins
         - refstack-client-devstack-master:
@@ -68,25 +77,22 @@
             vars: *standalone
             dependencies:
               - tripleo-ci-centos-9-content-provider
-        - tripleo-ci-centos-9-standalone:
-            irrelevant-files: *irrelevant-files
-            vars: *standalone
-            dependencies:
-              - tripleo-ci-centos-9-content-provider
-        - opendev-tox-docs
+        # https://bugs.launchpad.net/tripleo/+bug/2006649
+        #- tripleo-ci-centos-9-standalone:
+        #    irrelevant-files: *irrelevant-files
+        #    vars: *standalone
+        #    dependencies:
+        #      - tripleo-ci-centos-9-content-provider
+        # - opendev-tox-docs
     promote:
       jobs:
         - opendev-promote-docs
     experimental:
       jobs:
-        - python-tempestconf-tempest-devstack-demo-victoria
-        - python-tempestconf-tempest-devstack-demo-wallaby
-        - python-tempestconf-tempest-devstack-demo-xena
         - python-tempestconf-tempest-devstack-demo-yoga
-        - refstack-client-devstack-victoria
-        - refstack-client-devstack-wallaby
-        - refstack-client-devstack-xena
+        - python-tempestconf-tempest-devstack-demo-zed
         - refstack-client-devstack-yoga
+        - refstack-client-devstack-zed
 
 
 - job:
@@ -214,36 +220,18 @@
       tempest_concurrency: 2
 
 - job:
-    name: python-tempestconf-tempest-devstack-admin-victoria
-    parent: python-tempestconf-tempest-devstack-admin
-    override-checkout: stable/victoria
-    vars:
-      branch: stable/victoria
-      devstack_localrc:
-        MANILA_INSTALL_TEMPEST_PLUGIN_SYSTEMWIDE: false
-
-- job:
-    name: python-tempestconf-tempest-devstack-admin-wallaby
-    parent: python-tempestconf-tempest-devstack-admin
-    override-checkout: stable/wallaby
-    vars:
-      branch: stable/wallaby
-      devstack_localrc:
-        MANILA_INSTALL_TEMPEST_PLUGIN_SYSTEMWIDE: false
-
-- job:
-    name: python-tempestconf-tempest-devstack-admin-xena
-    parent: python-tempestconf-tempest-devstack-admin
-    override-checkout: stable/xena
-    vars:
-      branch: stable/xena
-
-- job:
     name: python-tempestconf-tempest-devstack-admin-yoga
     parent: python-tempestconf-tempest-devstack-admin
     override-checkout: stable/yoga
     vars:
       branch: stable/yoga
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-zed
+    parent: python-tempestconf-tempest-devstack-admin
+    override-checkout: stable/zed
+    vars:
+      branch: stable/zed
 
 - job:
     name: python-tempestconf-tempest-devstack-demo
@@ -265,36 +253,18 @@
       tempest_exclude_regex: 'tempest.api.compute.servers'
 
 - job:
-    name: python-tempestconf-tempest-devstack-demo-victoria
-    parent: python-tempestconf-tempest-devstack-demo
-    override-checkout: stable/victoria
-    vars:
-      branch: stable/victoria
-      devstack_localrc:
-        MANILA_INSTALL_TEMPEST_PLUGIN_SYSTEMWIDE: false
-
-- job:
-    name: python-tempestconf-tempest-devstack-demo-wallaby
-    parent: python-tempestconf-tempest-devstack-demo
-    override-checkout: stable/wallaby
-    vars:
-      branch: stable/wallaby
-      devstack_localrc:
-        MANILA_INSTALL_TEMPEST_PLUGIN_SYSTEMWIDE: false
-
-- job:
-    name: python-tempestconf-tempest-devstack-demo-xena
-    parent: python-tempestconf-tempest-devstack-demo
-    override-checkout: stable/xena
-    vars:
-      branch: stable/xena
-
-- job:
     name: python-tempestconf-tempest-devstack-demo-yoga
     parent: python-tempestconf-tempest-devstack-demo
     override-checkout: stable/yoga
     vars:
       branch: stable/yoga
+
+- job:
+    name: python-tempestconf-tempest-devstack-demo-zed
+    parent: python-tempestconf-tempest-devstack-demo
+    override-checkout: stable/zed
+    vars:
+      branch: stable/zed
 
 - job:
     name: python-tempestconf-tempest-packstack-admin
