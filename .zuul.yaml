@@ -56,10 +56,7 @@
                 - octavia
             dependencies:
               - tripleo-ci-centos-9-content-provider
-        # temporarily marked to n-v, there is already a fix for this:
-        # https://review.opendev.org/c/openinfra/python-tempestconf/+/870548
-        - opendev-tox-docs:
-            voting: false
+        - opendev-tox-docs
     gate:
       jobs:
         - openstack-tox-py39
@@ -83,7 +80,7 @@
         #    vars: *standalone
         #    dependencies:
         #      - tripleo-ci-centos-9-content-provider
-        # - opendev-tox-docs
+        - opendev-tox-docs
     promote:
       jobs:
         - opendev-promote-docs
