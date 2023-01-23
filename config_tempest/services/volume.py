@@ -75,7 +75,7 @@ class VolumeService(VersionedService):
 
     @staticmethod
     def get_service_type():
-        return ['volumev2', 'volumev3']
+        return ['volumev3']
 
     def post_configuration(self, conf, is_service):
         # Verify if the cinder backup service is enabled
