@@ -90,7 +90,7 @@ def load_basic_defaults(conf):
             ("alt_project_name", "alt_demo")
         ],
         "auth": [
-            ("tempest_roles", "_member_"),
+            ("tempest_roles", "member"),
             ("admin_username", "admin"),
             ("admin_project_name", "admin"),
             ("admin_domain_name", "Default")
