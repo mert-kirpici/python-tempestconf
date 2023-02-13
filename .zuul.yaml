@@ -184,8 +184,6 @@
         - 'heat_tempest_plugin'
         - 'barbican_tempest_plugin'
       exclude_regex:
-        # TODO(lpiwowar) Remove once the test is fixed. (Bug: https://bugs.launchpad.net/designate/+bug/1968717)
-        - 'designate_tempest_plugin.tests.api.v2.test_zone_tasks.ZoneTasksNegative.test_manually_trigger_update_secondary_zone_negative'
         - 'heat_tempest_plugin.tests.functional.test_nova_server_networks.CreateServerTest.test_create_update_server_with_subnet'
         - 'heat_tempest_plugin.tests.scenario.test_volumes.VolumeBackupRestoreIntegrationTest.test_cinder_volume_create_backup_restore'
         - 'heat_tempest_plugin.tests.scenario.test_server_software_config.SoftwareConfigIntegrationTest.test_server_software_config'
