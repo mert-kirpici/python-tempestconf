@@ -14,6 +14,8 @@
             voting: false
         - python-tempestconf-tempest-devstack-demo
         - python-tempestconf-tempest-devstack-admin-plugins
+        - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-admin
+        - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-demo
         - python-tempestconf-tempest-packstack-admin:
             voting: false
         - python-tempestconf-tempest-packstack-demo:
@@ -171,6 +173,20 @@
     irrelevant-files: *irrelevant-files
 
 - job:
+    name: python-tempestconf-devstack-enforce-scope-new-defaults-base
+    parent: python-tempestconf-devstack-base
+    description: Base job for python-tempestconf on a devstack environment with enforce scope and new defaults enabled
+    vars:
+      devstack_localrc:
+        # NOTE(rpopelka) We need to keep keystone scope check disabled as
+        # it still has system scope enabled in it's policies. When keystone
+        # updates it's policies, the scope check can be set to True also.
+        NOVA_ENFORCE_SCOPE: True
+        CINDER_ENFORCE_SCOPE: True
+        GLANCE_ENFORCE_SCOPE: True
+        NEUTRON_ENFORCE_SCOPE: True
+
+- job:
     name: python-tempestconf-tempest-devstack-admin-plugins
     parent: python-tempestconf-devstack-base
     description: |
@@ -277,3 +293,36 @@
       user: demo
       test_demo: true
       cloud_admin: packstack-admin
+
+- job:
+    name: python-tempestconf-tempest-devstack-enforce-scope-new-defaults-admin
+    parent: python-tempestconf-devstack-enforce-scope-new-defaults-base
+    description: |
+      Tempest job for python-tempestconf on a devstack environment with enforce scope and new defaults enabled as the admin user.
+    run: playbooks/python-tempestconf-tempest-devstack.yaml
+    vars:
+      user: admin
+      cloud_user: devstack-admin
+      tempest_concurrency: 2
+
+- job:
+    name: python-tempestconf-tempest-devstack-enforce-scope-new-defaults-demo
+    parent: python-tempestconf-devstack-enforce-scope-new-defaults-base
+    description: |
+      Tempest job for python-tempestconf on a devstack environment with enforce scope and new default enabled as the demo user.
+    run: playbooks/python-tempestconf-tempest-devstack.yaml
+    vars:
+      additional_tempestconf_params: "auth.tempest_roles member"
+      user: demo
+      cloud_user: devstack
+      test_demo: true
+      cloud_admin: devstack-admin
+      # concurrency is reduced in this job, because a minimal accounts
+      # file is used
+      tempest_concurrency: 1
+      # skip until https://storyboard.openstack.org/#!/story/2004209
+      # is resolved
+      tempest_exclude_regex: 'tempest.api.compute.servers'
+
+
+
