@@ -6,6 +6,7 @@ Release Notes
    :maxdepth: 1
 
    unreleased
+   v3.4.0
    v3.2.0
    v3.1.0
    v3.0.0
