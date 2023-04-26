@@ -6,28 +6,13 @@
     check:
       jobs:
         - openstack-tox-py39
-        # temporarily n-v to unblock the gates, the job is fixed by
-        # https://review.opendev.org/c/openinfra/python-tempestconf/+/881551
-        - python-tempestconf-tempest-devstack-admin:
-            voting: false
-        # temporarily n-v to unblock the gates, the job is fixed by
-        # https://review.opendev.org/c/openinfra/python-tempestconf/+/881551
-        - python-tempestconf-tempest-devstack-admin-yoga:
-            voting: false
-        # temporarily marked to n-v, there is a bug
-        # https://storyboard.openstack.org/#!/story/2010573
-        - python-tempestconf-tempest-devstack-admin-zed:
-            voting: false
+        - python-tempestconf-tempest-devstack-admin
+        - python-tempestconf-tempest-devstack-admin-yoga
+        - python-tempestconf-tempest-devstack-admin-zed
         - python-tempestconf-tempest-devstack-admin-2023-1
         - python-tempestconf-tempest-devstack-demo
-        # temporarily n-v to unblock the gates, the job is fixed by
-        # https://review.opendev.org/c/openinfra/python-tempestconf/+/881551
-        - python-tempestconf-tempest-devstack-admin-plugins:
-            voting: false
-        # temporarily n-v to unblock the gates, the job is fixed by
-        # https://review.opendev.org/c/openinfra/python-tempestconf/+/881551
-        - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-admin:
-            voting: false
+        - python-tempestconf-tempest-devstack-admin-plugins
+        - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-admin
         - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-demo
         - python-tempestconf-tempest-packstack-admin:
             voting: false
@@ -76,12 +61,12 @@
     gate:
       jobs:
         - openstack-tox-py39
-        # - python-tempestconf-tempest-devstack-admin
-        # - python-tempestconf-tempest-devstack-admin-yoga
-        # - python-tempestconf-tempest-devstack-admin-zed
+        - python-tempestconf-tempest-devstack-admin
+        - python-tempestconf-tempest-devstack-admin-yoga
+        - python-tempestconf-tempest-devstack-admin-zed
         - python-tempestconf-tempest-devstack-admin-2023-1
         - python-tempestconf-tempest-devstack-demo
-        # - python-tempestconf-tempest-devstack-admin-plugins
+        - python-tempestconf-tempest-devstack-admin-plugins
         - refstack-client-devstack-master:
             irrelevant-files: *irrelevant-files
         # - tripleo-ci-centos-9-content-provider:
@@ -232,6 +217,7 @@
         - "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/designate-tempest-plugin'].src_dir }}"
         - "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/barbican-tempest-plugin'].src_dir }}"
       tempest_concurrency: 2
+      ensure_tox_version: '<4'
 
 - job:
     name: python-tempestconf-tempest-devstack-admin
@@ -257,6 +243,7 @@
     override-checkout: stable/zed
     vars:
       branch: stable/zed
+      ensure_tox_version: '<4'
 
 - job:
     name: python-tempestconf-tempest-devstack-admin-2023-1

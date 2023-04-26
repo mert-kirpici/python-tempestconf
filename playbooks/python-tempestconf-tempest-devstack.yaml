@@ -2,6 +2,15 @@
   roles:
     # the role is inherited from openstack/devstack project
     - run-devstack
+  tasks:
+    - name: Ensure tox (system-wide)
+      shell: |
+        python3 -m pip install "tox{{ ensure_tox_version }}"
+      args:
+        executable: /bin/bash
+      become: true
+      when:
+        - ensure_tox_version is defined
 
 - hosts: tempest
   vars:
@@ -17,16 +26,6 @@
     - name: Setup Tempest Data Directory
       include_role:
         name: setup-tempest-data-dir
-
-    # NOTE: devstack jobs are failing on Run Tempest task
-    # it is because tox command is not found. Adding 'ensure-tox'
-    # role here to make sure that tox is installed and it
-    # will not break the tempest tests.
-    - name: Ensure tox is installed
-      include_role:
-        name: ensure-tox
-      vars:
-        ensure_global_symlinks: True
 
     - name: ACL devstack files
       include_role:
