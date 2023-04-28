@@ -10,6 +10,7 @@
         - python-tempestconf-tempest-devstack-admin-yoga
         - python-tempestconf-tempest-devstack-admin-zed
         - python-tempestconf-tempest-devstack-admin-2023-1
+        - python-tempestconf-tempest-devstack-admin-fips-centos9
         - python-tempestconf-tempest-devstack-demo
         - python-tempestconf-tempest-devstack-admin-plugins
         - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-admin
@@ -229,6 +230,17 @@
       user: admin
       cloud_user: devstack-admin
       tempest_concurrency: 2
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-fips-centos9
+    parent: python-tempestconf-tempest-devstack-admin
+    description: |
+      Tempest job for python-tempestconf on a devstack environment as the admin user (fips enabled).
+    nodeset: devstack-single-node-centos-9-stream
+    vars:
+      configure_swap_size: 4096
+      nslookup_target: 'opendev.org'
+      enable_fips: true
 
 - job:
     name: python-tempestconf-tempest-devstack-admin-yoga
