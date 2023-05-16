@@ -18,6 +18,7 @@
         # https://storyboard.openstack.org/#!/story/2010573
         - python-tempestconf-tempest-devstack-admin-zed:
             voting: false
+        - python-tempestconf-tempest-devstack-admin-2023-1
         - python-tempestconf-tempest-devstack-demo
         # temporarily n-v to unblock the gates, the job is fixed by
         # https://review.opendev.org/c/openinfra/python-tempestconf/+/881551
@@ -40,6 +41,7 @@
               - ^.*\.rst$
         - tripleo-ci-centos-9-content-provider:
             irrelevant-files: *irrelevant-files
+            voting: false
         - tripleo-ci-centos-9-scenario002-standalone:
             irrelevant-files: *irrelevant-files
             vars: &standalone
@@ -77,12 +79,13 @@
         # - python-tempestconf-tempest-devstack-admin
         # - python-tempestconf-tempest-devstack-admin-yoga
         # - python-tempestconf-tempest-devstack-admin-zed
+        - python-tempestconf-tempest-devstack-admin-2023-1
         - python-tempestconf-tempest-devstack-demo
         # - python-tempestconf-tempest-devstack-admin-plugins
         - refstack-client-devstack-master:
             irrelevant-files: *irrelevant-files
-        - tripleo-ci-centos-9-content-provider:
-            irrelevant-files: *irrelevant-files
+        # - tripleo-ci-centos-9-content-provider:
+        #    irrelevant-files: *irrelevant-files
         - tripleo-ci-centos-9-scenario002-standalone:
             irrelevant-files: *irrelevant-files
             vars: *standalone
@@ -102,8 +105,10 @@
       jobs:
         - python-tempestconf-tempest-devstack-demo-yoga
         - python-tempestconf-tempest-devstack-demo-zed
+        - python-tempestconf-tempest-devstack-demo-2023-1
         - refstack-client-devstack-yoga
         - refstack-client-devstack-zed
+        - refstack-client-devstack-2023-1
 
 
 - job:
@@ -254,6 +259,13 @@
       branch: stable/zed
 
 - job:
+    name: python-tempestconf-tempest-devstack-admin-2023-1
+    parent: python-tempestconf-tempest-devstack-admin
+    override-checkout: stable/2023.1
+    vars:
+      branch: stable/2023.1
+
+- job:
     name: python-tempestconf-tempest-devstack-demo
     parent: python-tempestconf-devstack-base
     description: |
@@ -285,6 +297,13 @@
     override-checkout: stable/zed
     vars:
       branch: stable/zed
+
+- job:
+    name: python-tempestconf-tempest-devstack-demo-2023-1
+    parent: python-tempestconf-tempest-devstack-demo
+    override-checkout: stable/2023.1
+    vars:
+      branch: stable/2023.1
 
 - job:
     name: python-tempestconf-tempest-packstack-admin
