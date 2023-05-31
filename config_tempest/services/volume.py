@@ -17,6 +17,7 @@ import json
 import re
 
 from config_tempest import constants as C
+from config_tempest.services.base import ServiceError
 from config_tempest.services.base import VersionedService
 
 from tempest.lib import exceptions
@@ -50,6 +51,9 @@ class VolumeService(VersionedService):
         except exceptions.Forbidden:
             C.LOG.warning("User has no permissions to list back-end storage "
                           "pools - storage back-ends can't be discovered.")
+            return
+        except ServiceError:
+            C.LOG.warning("Volume backend doesn't exist.")
             return
         if pools:
             backends = [
