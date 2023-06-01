@@ -306,8 +306,8 @@ def get_arg_parser():
                         help="""Convert images to raw format before uploading
                                 to glance.""")
     parser.add_argument('--network-id',
-                        help="""Specify which network with external connectivity
-                                should be used by the tests.""")
+                        help="""Specify which network with external
+                                connectivity should be used by the tests.""")
     parser.add_argument('--append', action='append', default=[],
                         metavar="SECTION.KEY=VALUE[,VALUE]",
                         help="""Append values to tempest.conf
