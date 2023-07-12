@@ -85,6 +85,8 @@ def load_basic_defaults(conf):
             ("username", "demo_tempestconf"),
             ("password", "secrete"),
             ("project_name", "demo"),
+            ("project_domain_name", "Default"),
+            ("user_domain_name", "Default"),
             ("alt_username", "alt_demo_tempestconf"),
             ("alt_password", "secrete"),
             ("alt_project_name", "alt_demo")
@@ -93,7 +95,9 @@ def load_basic_defaults(conf):
             ("tempest_roles", "member"),
             ("admin_username", "admin"),
             ("admin_project_name", "admin"),
-            ("admin_domain_name", "Default")
+            ("admin_domain_name", "Default"),
+            ("admin_project_domain_name", "Default"),
+            ("admin_user_domain_name", "Default")
         ],
         "object-storage": [
             ("reseller_admin_role", "ResellerAdmin")
@@ -447,6 +451,9 @@ def set_cloud_config_values(non_admin, cloud_creds, conf):
                      'project_name',
                      cloud_creds['project_name'])
             conf.set('identity', 'password', cloud_creds['password'])
+            for cred in ['project_domain_name', 'user_domain_name']:
+                if cred in cloud_creds:
+                    conf.set('auth', cred, cloud_creds[cred])
         else:
             # admin credentials are under auth section
             conf.set('auth', 'admin_username', cloud_creds['username'])
@@ -454,6 +461,12 @@ def set_cloud_config_values(non_admin, cloud_creds, conf):
                      'admin_project_name',
                      cloud_creds['project_name'])
             conf.set('auth', 'admin_password', cloud_creds['password'])
+            for cred in [
+                'domain_name', 'project_domain_name', 'user_domain_name'
+            ]:
+                if cred in cloud_creds:
+                    conf.set('auth', f'admin_{cred}', cloud_creds[cred])
+
         conf.set('identity', 'uri', cloud_creds['auth_url'])
 
         if 'region_name' in cloud_creds:

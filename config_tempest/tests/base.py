@@ -59,6 +59,9 @@ class BaseConfigTempestTest(base.BaseTestCase):
         conf.set("identity", "username", "demo")
         conf.set("identity", "password", "secret")
         conf.set("identity", "project_name", "demo")
+        conf.set("identity", "domain_name", "Default")
+        conf.set("identity", "project_domain_name", "Default")
+        conf.set("identity", "user_domain_name", "Default")
         conf.set("identity", "disable_ssl_certificate_validation", "true")
         conf.set("identity", "auth_version", "v3")
         conf.set("identity", "uri", uri + V2, priority=True)
@@ -66,6 +69,8 @@ class BaseConfigTempestTest(base.BaseTestCase):
         conf.set("auth", "admin_username", "admin")
         conf.set("auth", "admin_project_name", "adminProject")
         conf.set("auth", "admin_password", "adminPass")
+        conf.set("auth", "admin_project_domain_name", "Default")
+        conf.set("auth", "admin_user_domain_name", "Default")
         conf.set("auth", "use_dynamic_credentials", "False", priority=True)
         return conf
 
@@ -76,6 +81,9 @@ class BaseConfigTempestTest(base.BaseTestCase):
         conf.set("identity", "username", "demo")
         conf.set("identity", "password", "secret")
         conf.set("identity", "project_name", "demo")
+        conf.set("identity", "domain_name", "Default")
+        conf.set("identity", "project_domain_name", "Default")
+        conf.set("identity", "user_domain_name", "Default")
         conf.set("identity", "disable_ssl_certificate_validation", "true")
         conf.set("identity", "auth_version", "v3")
         conf.set("identity", "uri", uri + V2, priority=True)
@@ -83,6 +91,9 @@ class BaseConfigTempestTest(base.BaseTestCase):
         conf.set("auth", "admin_username", "admin")
         conf.set("auth", "admin_project_name", "adminProject")
         conf.set("auth", "admin_password", "adminPass")
+        conf.set("auth", "admin_domain_name", "Default")
+        conf.set("auth", "admin_project_domain_name", "Default")
+        conf.set("auth", "admin_user_domain_name", "Default")
         conf.set("auth", "use_dynamic_credentials", "True", priority=True)
         return conf
 

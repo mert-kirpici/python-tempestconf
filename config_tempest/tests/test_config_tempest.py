@@ -51,7 +51,9 @@ class TestOsClientConfigSupport(BaseConfigTempestTest):
             'username': 'cloud_user',
             'password': 'cloud_pass',
             'project_name': 'cloud_project',
-            'auth_url': 'http://auth.url.com/'
+            'auth_url': 'http://auth.url.com/',
+            'user_domain_name': 'cloud_domain',
+            'project_domain_name': 'cloud_domain',
         }
         if region_name:
             cloud_args.update(region_name=region_name)
@@ -74,6 +76,10 @@ class TestOsClientConfigSupport(BaseConfigTempestTest):
                              conf.get('auth', 'admin_password'))
             self.assertEqual(cloud_args['project_name'],
                              conf.get('auth', 'admin_project_name'))
+            self.assertEqual(cloud_args['project_domain_name'],
+                             conf.get('auth', 'admin_project_domain_name'))
+            self.assertEqual(cloud_args['user_domain_name'],
+                             conf.get('auth', 'admin_user_domain_name'))
         if region_name:
             self.assertEqual(cloud_args['region_name'],
                              conf.get('identity', 'region'))

@@ -63,7 +63,8 @@ class TestCredentials(BaseConfigTempestTest):
             'password': 'secret',
             'project_name': 'demo',
             'domain_name': 'Default',
-            'user_domain_name': 'Default'
+            'user_domain_name': 'Default',
+            'project_domain_name': 'Default',
         }
         self.assertEqual(self.creds._get_creds_kwargs(), expected_resp)
 
@@ -97,7 +98,8 @@ class TestCredentials(BaseConfigTempestTest):
             username='name',
             project_name='project_name',
             domain_name='Default',
-            user_domain_name='Default')
+            user_domain_name='Default',
+            project_domain_name='Default')
 
     def test_get_auth_provider_keystone_v2(self):
         # check if method returns correct method - KeystoneV2AuthProvider
